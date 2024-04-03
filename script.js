@@ -3,7 +3,8 @@ const dice = document.getElementById("dice");
 const playerActive0 = document.getElementsByClassName("player--0")[0];
 const playerActive1 = document.getElementsByClassName("player--1")[0];
 
-
+var ganhar = Math.floor(Math.random() * 50) + 1;
+console.log(ganhar)
 function switchPlayer() {
     if (playerActive0.classList.contains("player--active")) {
         score0 = 0;
@@ -47,17 +48,20 @@ var score1 = 0;
 
 var current0 = 0;
 var current1 = 0;
+
 btnNewGame.addEventListener('click', () => {
+    var ganhar = Math.floor(Math.random() * 50) + 1;
     current0 = 0;
     current1 = 0;
     score0 = 0;
-    score1 = 1;
+    score1 = 0;
     scorePlayer0.innerText = 0;
     scorePlayer1.innerText = 0;
     currentPlayer0.innerText = 0;
     currentPlayer1.innerText = 0;
     playerActive0.classList.remove("player--winner");
     playerActive1.classList.remove("player--winner");
+    playerGanhou.innerText = "";
 });
 
 
@@ -68,6 +72,7 @@ btnRoll.addEventListener('click', () => {
     switch (numSorteado) {
         case 1: {
             dice.src = "dice-1.png";
+            audioErro.play();
             switchPlayer();
             break;
         }
@@ -115,13 +120,60 @@ function adicionarScore() {
 
 const btnHold = document.getElementsByClassName("btn--hold")[0];
 
+const name0 = document.getElementsByClassName("name--0")[0];
+const name1 = document.getElementsByClassName("name--1")[0];
+
+const body = document.getElementsByClassName("body")[0];
+const playerGanhou = document.getElementById("ganhou");
+
+var audio = new Audio('vitoria.mp3');
+var audioErro = new Audio('derrota.mp3');
+var audioHold = new Audio('holdAudio.mp3')
+
+function confettiFalling() {
+
+	var box = document.getElementById("box");
+	var colors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink'];
+
+	for (var i = 0; i < 1000; i++) {
+		
+		// Create 1000 DIV elements for confetti
+		var div = document.createElement("div");
+		div.classList.add("confetti");
+		box.appendChild(div);
+	}
+
+	var confetti = document.querySelectorAll('.confetti');
+
+	for (var i = 0; i < confetti.length; i++) {
+		
+		var size = Math.random() * 0.01 * [i];
+
+		confetti[i].style.width = 5 + size + 'px';
+		confetti[i].style.height = 16 + size + 'px';
+		confetti[i].style.left = Math.random() * innerWidth + 'px';
+
+		var background = colors[Math.floor(Math.random() * colors.length)];
+		confetti[i].style.backgroundColor = background;
+
+		box.children[i].style.transform = "rotate("+ size*[i] +"deg)";
+	}
+}
+
 btnHold.addEventListener('click', () =>{
+    audioHold.play();
     adicionarScore();
-    if(score0 >= 20){
+    if(score0 >= ganhar){
         playerActive0.classList.add("player--winner");
+        playerGanhou.innerText ="PLAYER 1 WIN!";
+        audio.play();
+        confettiFalling();
     }
-    if(score1 >= 20){
+    if(score1 >= ganhar){
         playerActive1.classList.add("player--winner");
+        playerGanhou.innerText ="PLAYER 2 WIN!";
+        audio.play();
+        confettiFalling();
     }
     if (playerActive0.classList.contains("player--active")) {
         current0 = 0;
@@ -134,6 +186,6 @@ btnHold.addEventListener('click', () =>{
         playerActive0.classList.add("player--active");
         playerActive1.classList.remove("player--active");
     }
- //   switchPlayer();
+
 });
 
