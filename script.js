@@ -1,10 +1,20 @@
+// Declarando a variavel vitoria como condicao de vitoria, sorteando algum numero aleatorio de 1 a 50
+var vitoria = Math.floor(Math.random() * 50) + 1;
+
+// Pegando os elementos dos botões
 const btnRoll = document.getElementsByClassName("btn btn--roll")[0];
+const btnNewGame = document.getElementsByClassName("btn btn--new")[0];
+const btnHold = document.getElementsByClassName("btn--hold")[0];
+
+// Pegando o elemento do dado
 const dice = document.getElementById("dice");
+
+// Pegando a section dos players
 const playerActive0 = document.getElementsByClassName("player--0")[0];
 const playerActive1 = document.getElementsByClassName("player--1")[0];
 
-var ganhar = Math.floor(Math.random() * 50) + 1;
-console.log(ganhar)
+
+// Criando uma function para a troca dos players
 function switchPlayer() {
     if (playerActive0.classList.contains("player--active")) {
         score0 = 0;
@@ -22,7 +32,7 @@ function switchPlayer() {
         playerActive1.classList.remove("player--active");
     }
 }
-
+// Criando uma function para adicionar o numSorteado na current do player ativo
 function adicionarCurrent(numSorteado) {
     if (playerActive0.classList.contains("player--active")) {
         console.log(current0);
@@ -31,11 +41,10 @@ function adicionarCurrent(numSorteado) {
     } else if (playerActive1.classList.contains("player--active")) {
         current1 += numSorteado;
         currentPlayer1.innerText = current1;
-        //commit
     }
 }
 
-const btnNewGame = document.getElementsByClassName("btn btn--new")[0];
+
 const scorePlayer0 = document.getElementById("score--0");
 const scorePlayer1 = document.getElementById("score--1");
 
@@ -50,7 +59,7 @@ var current0 = 0;
 var current1 = 0;
 
 btnNewGame.addEventListener('click', () => {
-    var ganhar = Math.floor(Math.random() * 50) + 1;
+    var vitoria = Math.floor(Math.random() * 50) + 1;
     current0 = 0;
     current1 = 0;
     score0 = 0;
@@ -118,7 +127,7 @@ function adicionarScore() {
     }
 }
 
-const btnHold = document.getElementsByClassName("btn--hold")[0];
+
 
 const name0 = document.getElementsByClassName("name--0")[0];
 const name1 = document.getElementsByClassName("name--1")[0];
@@ -163,13 +172,13 @@ function confettiFalling() {
 btnHold.addEventListener('click', () =>{
     audioHold.play();
     adicionarScore();
-    if(score0 >= ganhar){
+    if(score0 >= vitoria){
         playerActive0.classList.add("player--winner");
         playerGanhou.innerText ="PLAYER 1 WIN!";
         audio.play();
         confettiFalling();
     }
-    if(score1 >= ganhar){
+    if(score1 >= vitoria){
         playerActive1.classList.add("player--winner");
         playerGanhou.innerText ="PLAYER 2 WIN!";
         audio.play();
