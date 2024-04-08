@@ -1,5 +1,6 @@
 // Declarando a variavel vitoria como condicao de vitoria, sorteando algum numero aleatorio de 1 a 50
-var vitoria = Math.floor(Math.random() * 50) + 1;
+var vitoria = Math.floor(Math.random() * 30) + 20;
+console.log(`O VALOR DA RODADA É ${vitoria}`);
 
 // Pegando os elementos dos botões
 const btnRoll = document.getElementsByClassName("btn btn--roll")[0];
